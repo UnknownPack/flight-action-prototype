@@ -66,7 +66,7 @@ public class planMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl))
             currentSpeed -= deceleration * Time.deltaTime;
 
-        currentSpeed = Mathf.Clamp(currentSpeed, -100, maxSpeed);
+        currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed/2, maxSpeed);
 
         // Apply movement
         rb.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration);
