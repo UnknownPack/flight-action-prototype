@@ -2,12 +2,16 @@ using UnityEngine;
 
 public class planMovement : MonoBehaviour
 {
+    [Header("Control Settings")]
     public float acceleration = 15f;
     public float deceleration = 7.5f;
-    public float rotationSpeed = 0.0000005f;
     public float maxSpeed = 1000f;
     public float maxAngleChange = 15f;
-    public ControlSurfaces controlSurface;
+    public RatesOfChange ratesOfChange;
+    
+    [Header("GameObject refrences")]
+    public ControlSurfaces controlSurface; 
+    public HardPoints hardPoints;
     
     private float currentSpeed = 0f;
     private Quaternion rotation;
@@ -54,9 +58,9 @@ public class planMovement : MonoBehaviour
         RotatePivot(controlSurface.Rudder, yaw);
 
         // Apply rotation relative to the plane
-        transform.Rotate(pitch * rotationSpeed * Time.deltaTime, 
-            yaw * rotationSpeed * Time.deltaTime,
-            roll * rotationSpeed * Time.deltaTime, 
+        transform.Rotate(pitch * ratesOfChange.Pitch_RateChange * Time.deltaTime, 
+            yaw * ratesOfChange.Yaw_RateChange * Time.deltaTime,
+            roll * ratesOfChange.Roll_RateChange * Time.deltaTime, 
             Space.Self);
 
         // Speed control
@@ -65,11 +69,16 @@ public class planMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftControl))
             currentSpeed -= deceleration * Time.deltaTime;
+        else
+            currentSpeed -= deceleration/2 * Time.deltaTime;
 
         currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed/2, maxSpeed);
 
         // Apply movement
-        rb.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration);
+        //rb.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration);
+        Vector3 vectorForce = Vector3.Lerp(rb.linearVelocity, transform.forward * currentSpeed, 0.1f);
+        vectorForce += Vector3.down * 0.981f; // Simulate gravity
+        rb.linearVelocity = vectorForce;
 
         // Debug
         Debug.Log($"Position: {transform.position}, Speed: {currentSpeed}, Rotation: {transform.rotation.eulerAngles}");
@@ -101,7 +110,7 @@ public class planMovement : MonoBehaviour
         newRotation.x = targetAngle;
 
         // Apply the final rotation back to the object (in local space).
-        obj.transform.localEulerAngles = newRotation;
+        obj.transform.localEulerAngles = Vector3.Lerp(newRotation, obj.transform.localEulerAngles, 0.1f);
     }
 
 }
@@ -121,4 +130,34 @@ public struct ControlSurfaces
     public GameObject ElevatorLeft => elevatorLeft;
     public GameObject Rudder => rudder;
 }
+
+[System.Serializable]
+public struct RatesOfChange
+
+{
+    [SerializeField] private float pitchRate;
+    [SerializeField] private float yawRate;
+    [SerializeField] private float rollRate;
+
+    public float Pitch_RateChange => pitchRate;
+    public float Yaw_RateChange => yawRate;
+    public float Roll_RateChange => rollRate;
+}
+
+[System.Serializable]
+public struct HardPoints
+{
+    [SerializeField] private GameObject HardPoint_1;
+    [SerializeField] private GameObject HardPoint_2;
+    [SerializeField] private GameObject HardPoint_3;
+    [SerializeField] private GameObject HardPoint_4;
+    [SerializeField] private GameObject MainCannon;
+
+    public GameObject HardPointOne => HardPoint_1;
+    public GameObject HardPointTwo => HardPoint_2;
+    public GameObject HardPointThree => HardPoint_3;
+    public GameObject HardPointFour => HardPoint_4;
+    public GameObject MainGun => MainCannon;
+}
+
 

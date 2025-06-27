@@ -1,7 +1,17 @@
+using UnityEngine;
+
 namespace Weapons
 {
-    public class Missiles
+    public class Missiles : MonoBehaviour, IWeapon
     {
-    
+        public void Fire()
+        {
+            
+        }
+
+        public void Reload()
+        {
+            
+        }
     }
 }
