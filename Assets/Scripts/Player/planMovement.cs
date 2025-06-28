@@ -158,6 +158,11 @@ public struct HardPoints
     public GameObject HardPointThree => HardPoint_3;
     public GameObject HardPointFour => HardPoint_4;
     public GameObject MainGun => MainCannon;
+    
+    public Transform[] GetAllHardPoints()
+    {
+        return new Transform[] { HardPoint_1.transform, HardPoint_2.transform, HardPoint_3.transform, HardPoint_4.transform };
+    }
 }
 
 
