@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5feef57c2d91ef948afb84746264cf71, type: 3}
-  m_Name: Tracking Missiles
+  m_Name: Bullets
   m_EditorClassIdentifier: 
-  initalVelocity: 0
-  maxVelocity: 300
-  acceleration: 5
-  maxAcceleration: 50
-  maxRange: 2500
-  maxRenderDistance: 1000
-  canTrack: 1
-  turnRate: 5
-  damage: 100
-  reloadTime: 5
-  amountOfAmmo: 20
+  initalVelocity: 2000
+  maxVelocity: 2000
+  acceleration: 0
+  maxAcceleration: 0
+  maxRange: 2000
+  maxRenderDistance: 1500
+  canTrack: 0
+  turnRate: 0
+  damage: 5
+  reloadTime: 0
+  amountOfAmmo: 1000
