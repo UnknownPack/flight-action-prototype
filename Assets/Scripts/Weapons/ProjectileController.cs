@@ -38,7 +38,7 @@ public class ProjectileController : MonoBehaviour
         
         // Clamp velocity
         velocity = Vector3.ClampMagnitude( velocity, porjectileData.maxVelocity);
-        rb.velocity = velocity;
+        rb.linearVelocity = velocity;
     }
 
     void ManageTracking(Transform target = null)

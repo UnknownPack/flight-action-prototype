@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace Weapons
     {
         private Weapon_SO missileData;
         private Transform[] hardPoints;
+        private bool[] hasMissilesOnHardPoint = { true, true, true, true };
 
         public void Init(Weapon_SO projectileData, GameObject projectilePrefab, Transform[] hardPoints)
         {
@@ -15,12 +17,17 @@ namespace Weapons
             this.hardPoints = hardPoints;
         }
         
-        public void Fire(GameObject projectile, Transform origin, Vector3 targetPosition)
+        public override void Fire()
         {
             
         }
 
-        public void Reload(GameObject projectile)
+        public override bool CanFire()
+        {
+            
+        }
+
+        public virtual IEnumerator Reload()
         {
             
         }
