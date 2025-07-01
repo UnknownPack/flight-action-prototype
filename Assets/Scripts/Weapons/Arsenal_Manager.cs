@@ -16,6 +16,7 @@ public class Arsenal_Manager : MonoBehaviour
 
     private WeaponBase currentWeapon;
     private Dictionary<WeaponBase, float> ammo = new Dictionary<WeaponBase, float>();
+    private Dictionary<WeaponBase, Coroutine> reloadCoroutine = new Dictionary<WeaponBase, Coroutine>();
     
     private planMovement planeMovement;
     private HardPoints hardPoints;
@@ -34,8 +35,9 @@ public class Arsenal_Manager : MonoBehaviour
         missile.Init(missileData, missilePrefab, hardPoints.GetAllHardPoints());
         ammo.Add(cannon, cannonBulletData.amountOfAmmo);
         ammo.Add(missile, missileData.amountOfAmmo);
-
         currentWeapon = cannon;
+        reloadCoroutine.Add(cannon, StartCoroutine(cannon.Reload()));
+        reloadCoroutine.Add(missile, StartCoroutine(missile.Reload()));
     }
 
     // Update is called once per frame
@@ -48,8 +50,16 @@ public class Arsenal_Manager : MonoBehaviour
         currentWeapon = switchWeapon ? cannon : missile;
 
         bool inputType = switchWeapon ? Input.GetKey(KeyCode.Space) : Input.GetKeyDown(KeyCode.Space);
-        if(inputType && currentWeapon.CanFire() && ammo[currentWeapon] > 0)
+
+        if (ammo[currentWeapon] <= 0)
+        {
+            StopCoroutine(reloadCoroutine[currentWeapon]);
+            return;
+        }
+        if(inputType && currentWeapon.CanFire())
             currentWeapon.Fire();
+
+         
 
     }
 }

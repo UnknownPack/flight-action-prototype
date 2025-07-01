@@ -28,7 +28,7 @@ public abstract class WeaponBase : MonoBehaviour
 
     public virtual bool CanFire()
     {
-        return true;
+        return canFire;
     }
 
     public virtual IEnumerator Reload()
