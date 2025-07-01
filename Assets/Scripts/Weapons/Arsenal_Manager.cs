@@ -36,8 +36,8 @@ public class Arsenal_Manager : MonoBehaviour
         ammo.Add(cannon, cannonBulletData.amountOfAmmo);
         ammo.Add(missile, missileData.amountOfAmmo);
         currentWeapon = cannon;
-        reloadCoroutine.Add(cannon, StartCoroutine(cannon.Reload(cannonBulletData.reloadTime)));
-        reloadCoroutine.Add(missile, StartCoroutine(missile.Reload(missileData.reloadTime)));
+        //reloadCoroutine.Add(cannon, StartCoroutine(cannon.Reload(cannonBulletData.reloadTime)));
+       // reloadCoroutine.Add(missile, StartCoroutine(missile.Reload(missileData.reloadTime)));
     }
 
     // Update is called once per frame
