@@ -21,10 +21,11 @@ namespace Weapons
         
         public override void Fire()
         {
-            GameObject missile = Instantiate(projectilePrefab, originTransform);
+            GameObject missile = Instantiate(projectilePrefab, originTransform.position, originTransform.rotation);
             Vector3 force = missile.transform.forward * projectileData.initalVelocity;
-            missile.transform.GetChild(0).GetComponent<Rigidbody>()?.AddForce(force, ForceMode.Impulse);
-            missile.transform.GetChild(0).GetComponent<Damage>()?.SetStats(originTransform.position, projectileData);
+            Rigidbody rb = missile.GetComponent<Rigidbody>();
+            rb.AddForce(force, ForceMode.Impulse);
+            missile.transform.GetChild(0).GetComponent<Damage>()?.SetStats(originTransform.position, projectileData, rb);
             missile.GetComponent<MissileTracking>().SetTarget(Target);
         }
 
@@ -43,7 +44,7 @@ namespace Weapons
             return false;
         }
 
-        public override IEnumerator Reload()
+        public override IEnumerator Reload(float reloadTime)
         {
             while (CheckHardPointsLoaded(false))
             {
@@ -52,7 +53,7 @@ namespace Weapons
                 {
                     if (!hasMissilesOnHardPoint[i])
                     {
-                        yield return new WaitForSeconds(projectileData.reloadTime);
+                        yield return new WaitForSeconds(reloadTime);
                         hasMissilesOnHardPoint[i] = true;
                     }
                 }

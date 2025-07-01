@@ -20,10 +20,13 @@ public abstract class WeaponBase : MonoBehaviour
     
     public virtual void Fire()
     {
-        GameObject bullet = Instantiate(projectilePrefab, originTransform);
+        GameObject bullet = Instantiate(projectilePrefab, originTransform.position, originTransform.rotation);
         Vector3 force = bullet.transform.forward * projectileData.initalVelocity;
-        bullet.GetComponent<Rigidbody>()?.AddForce(force, ForceMode.Impulse);
-        bullet.GetComponent<Damage>()?.SetStats(originTransform.position, projectileData);
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        rb.AddForce(force, ForceMode.Impulse);
+        bullet.transform.GetChild(0).GetComponent<Damage>().SetStats(originTransform.position, projectileData, rb);
+        canFire = false;
+        StartCoroutine(Reload(projectileData.reloadTime));
     }
 
     public virtual bool CanFire()
@@ -31,9 +34,10 @@ public abstract class WeaponBase : MonoBehaviour
         return canFire;
     }
 
-    public virtual IEnumerator Reload()
+    public virtual IEnumerator Reload(float reloadTime)
     {
-        yield return null;
+        yield return new WaitForSeconds(reloadTime);
+        canFire = true;
     }
     
     public virtual void ManageAmmo()

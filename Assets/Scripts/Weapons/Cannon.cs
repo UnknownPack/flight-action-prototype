@@ -8,13 +8,10 @@ namespace Weapons
     {
         public class Cannon: WeaponBase
         { 
-            
-            public override void Fire()
-            {
-                 base.Fire();
-            }
 
 
         }   
+        
+        
     }
 }

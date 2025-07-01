@@ -10,21 +10,24 @@ public class Damage : MonoBehaviour
     private Rigidbody _rigidbody;
     private float distance;
 
-    public void SetStats(Vector3 origin, Weapon_SO _weaponInformation)
+    public void SetStats(Vector3 origin, Weapon_SO _weaponInformation, Rigidbody _rigidbody)
     {
         this.origin = origin;
         this._weaponInformation = _weaponInformation;
+        this._rigidbody = _rigidbody;
     }
+
     void Start()
     {
-        _rigidbody = GetComponent<Rigidbody>();
+
     }
 
     private void FixedUpdate()
     {
         if (_rigidbody.velocity.magnitude < _weaponInformation.maxVelocity)
         {
-            _rigidbody.velocity += _rigidbody.velocity.normalized * _weaponInformation.acceleration * Time.fixedDeltaTime;
+            _rigidbody.velocity +=
+                _rigidbody.velocity.normalized * _weaponInformation.acceleration * Time.fixedDeltaTime;
             _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, _weaponInformation.maxVelocity);
         }
     }
@@ -48,7 +51,7 @@ public class Damage : MonoBehaviour
         if (collision.transform.CompareTag("CanTakeDamage"))
         {
             //TODO: Implement damaging logic here
-            
+
             //TODO: Implement proper destruction lgoc (consider pooling etc...)
             ManageDestruction();
         }
@@ -56,11 +59,11 @@ public class Damage : MonoBehaviour
 
     private void ManageDestruction()
     {
-        
+
     }
 
     private void ManageRendering()
     {
-        
+
     }
 }

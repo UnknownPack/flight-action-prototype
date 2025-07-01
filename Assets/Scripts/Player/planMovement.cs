@@ -81,7 +81,7 @@ public class planMovement : MonoBehaviour
         rb.linearVelocity = vectorForce;
 
         // Debug
-        Debug.Log($"Position: {transform.position}, Speed: {currentSpeed}, Rotation: {transform.rotation.eulerAngles}");
+        //Debug.Log($"Position: {transform.position}, Speed: {currentSpeed}, Rotation: {transform.rotation.eulerAngles}");
     }
 
     private void RotatePivot(GameObject obj, float direction)
