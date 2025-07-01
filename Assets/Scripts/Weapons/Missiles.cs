@@ -7,11 +7,7 @@ namespace Weapons
 {
     public class Missiles : WeaponBase
     {
-        private Transform Target()
-        {
-            
-        }
-        
+        private Transform Target;
         
         private Transform[] hardPoints;
         private bool[] hasMissilesOnHardPoint = { true, true, true, true };
@@ -29,22 +25,27 @@ namespace Weapons
             Vector3 force = missile.transform.forward * projectileData.initalVelocity;
             missile.transform.GetChild(0).GetComponent<Rigidbody>()?.AddForce(force, ForceMode.Impulse);
             missile.transform.GetChild(0).GetComponent<Damage>()?.SetStats(originTransform.position, projectileData);
-            missile.GetComponent<MissileTracking>().SetTarget();
+            missile.GetComponent<MissileTracking>().SetTarget(Target);
         }
 
         public override bool CanFire()
         {
+            return CheckHardPointsLoaded(true);
+        }
+
+        public bool CheckHardPointsLoaded(bool check)
+        {
             for (int i = 0; i < hasMissilesOnHardPoint.Length; i++)
             {
-                if (!hasMissilesOnHardPoint[i])
-                    return false;
+                if (hasMissilesOnHardPoint[i] == check)
+                    return true;
             }
-            return true;
+            return false;
         }
 
         public override IEnumerator Reload()
         {
-            while (true)
+            while (CheckHardPointsLoaded(false))
             {
                 int i;
                 for (i= 0; i < hasMissilesOnHardPoint.Length; i++)

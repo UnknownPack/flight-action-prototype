@@ -56,6 +56,7 @@ public class Arsenal_Manager : MonoBehaviour
             StopCoroutine(reloadCoroutine[currentWeapon]);
             return;
         }
+        
         if(inputType && currentWeapon.CanFire())
             currentWeapon.Fire();
 
