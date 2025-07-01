@@ -70,7 +70,7 @@ public class planMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl))
             currentSpeed -= deceleration * Time.deltaTime;
         else
-            currentSpeed -= deceleration/2 * Time.deltaTime;
+            currentSpeed -= deceleration/4 * Time.deltaTime;
 
         currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed/2, maxSpeed);
 
