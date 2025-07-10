@@ -1,19 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace Weapons
 {
     namespace Weapons
     {
-        public class Cannon: IWeapon
-        {
-        
-            public void Fire()
-            {
-            
-            }
+        public class Cannon: WeaponBase
+        { 
 
-            public void Reload()
-            {
-            
-            }
+
         }   
+        
+        
     }
 }

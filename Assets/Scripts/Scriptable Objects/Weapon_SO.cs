@@ -15,8 +15,10 @@ namespace Weapons
         public bool canTrack;
         public float turnRate;
         public float damage;
-
+        
+        public float reloadTime;
+        public float amountOfAmmo;
     }
-    
-    
 }
+
+

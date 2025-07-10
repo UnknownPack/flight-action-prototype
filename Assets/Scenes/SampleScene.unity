@@ -1479,6 +1479,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62de2da1f4062f3469a03934f3e96057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cannonBulletData: {fileID: 11400000, guid: a434ba87f96478845a30b782dc9d6d3e, type: 2}
+  missileData: {fileID: 11400000, guid: f38a7d8ce7ff16b49b16e3d795b258d2, type: 2}
+  cannonBulletPrefab: {fileID: 620159951225339651, guid: 36d56ba55f1f94745985fe695f9b4e1a, type: 3}
+  missilePrefab: {fileID: 7860942514860693818, guid: 62e4bcf2e3785ee45b7c8c38f5580776, type: 3}
 --- !u!1 &1165057834
 GameObject:
   m_ObjectHideFlags: 0

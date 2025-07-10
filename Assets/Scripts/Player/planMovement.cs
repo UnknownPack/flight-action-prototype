@@ -70,7 +70,7 @@ public class planMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl))
             currentSpeed -= deceleration * Time.deltaTime;
         else
-            currentSpeed -= deceleration/2 * Time.deltaTime;
+            currentSpeed -= deceleration/4 * Time.deltaTime;
 
         currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed/2, maxSpeed);
 
@@ -81,7 +81,7 @@ public class planMovement : MonoBehaviour
         rb.linearVelocity = vectorForce;
 
         // Debug
-        Debug.Log($"Position: {transform.position}, Speed: {currentSpeed}, Rotation: {transform.rotation.eulerAngles}");
+        //Debug.Log($"Position: {transform.position}, Speed: {currentSpeed}, Rotation: {transform.rotation.eulerAngles}");
     }
 
     private void RotatePivot(GameObject obj, float direction)
@@ -158,6 +158,11 @@ public struct HardPoints
     public GameObject HardPointThree => HardPoint_3;
     public GameObject HardPointFour => HardPoint_4;
     public GameObject MainGun => MainCannon;
+    
+    public Transform[] GetAllHardPoints()
+    {
+        return new Transform[] { HardPoint_1.transform, HardPoint_2.transform, HardPoint_3.transform, HardPoint_4.transform };
+    }
 }
 
 
