@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using Weapons;
@@ -19,7 +20,7 @@ public class Arsenal_Manager : MonoBehaviour
     private Dictionary<WeaponBase, Coroutine> reloadCoroutine = new Dictionary<WeaponBase, Coroutine>();
     
     private planMovement planeMovement;
-    private HardPoints hardPoints;
+    private List<GameObject> hardPoints;
     private Cannon cannon;
     private Missiles missile;
 
@@ -28,11 +29,11 @@ public class Arsenal_Manager : MonoBehaviour
     void Start()
     {
         planeMovement = GetComponent<planMovement>();
-        hardPoints = planeMovement.hardPoints;
+        hardPoints = planeMovement.weaponPoints;
         cannon = gameObject.AddComponent<Cannon>();
         missile = gameObject.AddComponent<Missiles>();
-        cannon.Init(cannonBulletData, cannonBulletPrefab, hardPoints.MainGun.transform);
-        missile.Init(missileData, missilePrefab, hardPoints.GetAllHardPoints());
+        cannon.Init(cannonBulletData, cannonBulletPrefab, hardPoints[0]);
+        missile.Init(missileData, missilePrefab, hardPoints.Skip(1).ToArray());
         ammo.Add(cannon, cannonBulletData.amountOfAmmo);
         ammo.Add(missile, missileData.amountOfAmmo);
         currentWeapon = cannon;

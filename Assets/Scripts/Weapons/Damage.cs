@@ -5,6 +5,7 @@ using Weapons;
 
 public class Damage : MonoBehaviour
 {
+    private bool active = false;
     private Vector3 origin, force;
     private Weapon_SO _weaponInformation;
     private Rigidbody _rigidbody;
@@ -16,6 +17,8 @@ public class Damage : MonoBehaviour
         this._weaponInformation = _weaponInformation;
         this._rigidbody = _rigidbody;
     }
+    
+    public void SetActive(bool active){this.active = active;}
 
     void Start()
     {
@@ -24,6 +27,9 @@ public class Damage : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!active)
+            return;
+        
         if (_rigidbody.velocity.magnitude < _weaponInformation.maxVelocity)
         {
             _rigidbody.velocity +=
@@ -34,6 +40,9 @@ public class Damage : MonoBehaviour
 
     private void Update()
     {
+        if (!active)
+            return;
+        
         distance = Vector3.Distance(origin, transform.position);
         if (distance >= _weaponInformation.maxRenderDistance)
         {

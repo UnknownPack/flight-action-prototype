@@ -9,24 +9,43 @@ namespace Weapons
     {
         private Transform Target;
         
-        private Transform[] hardPoints;
-        private bool[] hasMissilesOnHardPoint = { true, true, true, true };
+        private GameObject[] hardPoints;
+        private bool[] hasMissilesOnHardPoint;
+        private GameObject[] missiles;
 
-        public void Init(Weapon_SO projectileData, GameObject projectilePrefab, Transform[] hardPoints)
+        public void Init(Weapon_SO projectileData, GameObject projectilePrefab, GameObject[] hardPoints)
         {
             this.projectileData = projectileData;
             this.projectilePrefab = projectilePrefab;
             this.hardPoints = hardPoints;
+            
+            hasMissilesOnHardPoint = new bool[hardPoints.Length];
+            missiles = new GameObject[hardPoints.Length];
+            for (int i = 0; i < hardPoints.Length; i++)
+            {
+                hasMissilesOnHardPoint[i] = true;
+                missiles[i] = Instantiate(projectilePrefab, hardPoints[i].transform.position, hardPoints[i].transform.rotation);
+            }
         }
         
         public override void Fire()
         {
-            GameObject missile = Instantiate(projectilePrefab, originTransform.position, originTransform.rotation);
-            Vector3 force = missile.transform.forward * projectileData.initalVelocity;
-            Rigidbody rb = missile.GetComponent<Rigidbody>();
+            GameObject activatedMissile = GetAnyMissileArmedOnHardPoint();
+            if (activatedMissile == null)
+            {
+                Debug.LogWarning("No missiles available to fire.");
+                return;
+            }
+            Vector3 force = activatedMissile.transform.forward * projectileData.initalVelocity;
+            Rigidbody rb = activatedMissile.GetComponent<Rigidbody>();
             rb.AddForce(force, ForceMode.Impulse);
-            missile.transform.GetChild(0).GetComponent<Damage>()?.SetStats(originTransform.position, projectileData, rb);
-            missile.GetComponent<MissileTracking>().SetTarget(Target);
+            Damage damage = activatedMissile.GetComponent<Damage>();
+            if (damage != null)
+            {
+                damage.SetStats(activatedMissile.transform.position, projectileData, rb);
+                damage.SetActive(true);  
+            } 
+            activatedMissile.GetComponent<MissileTracking>().SetTarget(Target);
         }
 
         public override bool CanFire()
@@ -55,10 +74,24 @@ namespace Weapons
                     {
                         yield return new WaitForSeconds(reloadTime);
                         hasMissilesOnHardPoint[i] = true;
+                        missiles[i] = Instantiate(projectilePrefab, hardPoints[i].transform.position, hardPoints[i].transform.rotation);
                     }
                 }
                 i = 0;
             } 
+        }
+        
+        private GameObject GetAnyMissileArmedOnHardPoint()
+        {
+            for (int i = 0; i < hardPoints.Length; i++)
+            {
+                if(hasMissilesOnHardPoint[i])
+                {
+                    hasMissilesOnHardPoint[i] = false;
+                    return missiles[i];
+                }
+            }
+            return null;
         }
         
     }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class planMovement : MonoBehaviour
@@ -10,8 +11,8 @@ public class planMovement : MonoBehaviour
     public RatesOfChange ratesOfChange;
     
     [Header("GameObject refrences")]
-    public ControlSurfaces controlSurface; 
-    public HardPoints hardPoints;
+    public ControlSurfaces controlSurface;
+    public List<GameObject> weaponPoints;
     
     private float currentSpeed = 0f;
     private Quaternion rotation;
@@ -144,25 +145,7 @@ public struct RatesOfChange
     public float Roll_RateChange => rollRate;
 }
 
-[System.Serializable]
-public struct HardPoints
-{
-    [SerializeField] private GameObject HardPoint_1;
-    [SerializeField] private GameObject HardPoint_2;
-    [SerializeField] private GameObject HardPoint_3;
-    [SerializeField] private GameObject HardPoint_4;
-    [SerializeField] private GameObject MainCannon;
+ 
 
-    public GameObject HardPointOne => HardPoint_1;
-    public GameObject HardPointTwo => HardPoint_2;
-    public GameObject HardPointThree => HardPoint_3;
-    public GameObject HardPointFour => HardPoint_4;
-    public GameObject MainGun => MainCannon;
-    
-    public Transform[] GetAllHardPoints()
-    {
-        return new Transform[] { HardPoint_1.transform, HardPoint_2.transform, HardPoint_3.transform, HardPoint_4.transform };
-    }
-}
 
 
