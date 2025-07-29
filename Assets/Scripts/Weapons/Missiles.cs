@@ -25,12 +25,16 @@ namespace Weapons
             {
                 hasMissilesOnHardPoint[i] = true;
                 missiles[i] = Instantiate(projectilePrefab, hardPoints[i].transform.position, hardPoints[i].transform.rotation);
+                missiles[i].transform.SetParent(hardPoints[i].transform);
+                missiles[i].transform.localPosition = Vector3.zero;
+                missiles[i].transform.localRotation = Quaternion.identity;
             }
         }
         
         public override void Fire()
         {
             GameObject activatedMissile = GetAnyMissileArmedOnHardPoint();
+            activatedMissile.transform.SetParent(null);
             if (activatedMissile == null)
             {
                 Debug.LogWarning("No missiles available to fire.");

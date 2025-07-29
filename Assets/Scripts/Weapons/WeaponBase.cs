@@ -20,14 +20,13 @@ public abstract class WeaponBase : MonoBehaviour
     
     public virtual void Fire()
     {
-        var spawnTransform = originTransform.transform;
-        GameObject bullet = Instantiate(projectilePrefab, spawnTransform.position, originTransform.transform.rotation);
-        float distanceFromBulletToORigin = Vector3.Distance(spawnTransform.position, gameObject.transform.position);
-        Debug.Log($"{distanceFromBulletToORigin} distance from bullet to origin");
+        Vector3 spawnTransform = originTransform.transform.position;
+        GameObject bullet = Instantiate(projectilePrefab, spawnTransform, originTransform.transform.localRotation);
+            Debug.Log($"origin: {gameObject.transform.position} \n spawn location: {spawnTransform}");
         Vector3 force = bullet.transform.forward * projectileData.initalVelocity;
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.AddForce(force, ForceMode.Impulse);
-        bullet.transform.GetChild(0).GetComponent<Damage>().SetStats(originTransform.transform.position, projectileData, rb);
+        bullet.transform.GetChild(0).GetComponent<Damage>().SetStats(spawnTransform, projectileData, rb);
         canFire = false;
         StartCoroutine(Reload(projectileData.reloadTime));
     }
